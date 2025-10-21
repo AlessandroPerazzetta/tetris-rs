@@ -1,0 +1,11 @@
+use macroquad::prelude::*;
+
+/// Draws the given text centered in the window with the specified font size and color.
+pub fn draw_centered_text(text: &str, font_size: f32, color: Color) {
+    let window_width = screen_width();
+    let window_height = screen_height();
+    let text_dims = measure_text(text, None, font_size as u16, 1.0);
+    let x = (window_width - text_dims.width) / 2.0;
+    let y = (window_height - text_dims.height) / 2.0 + text_dims.height;
+    draw_text(text, x, y, font_size, color);
+}
