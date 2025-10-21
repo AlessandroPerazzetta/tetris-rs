@@ -8,6 +8,8 @@ Welcome to **Tetris**, a classic puzzle game brought to life with the power of [
 
 - **Smooth Graphics:** Powered by macroquad for fast, cross-platform rendering.
 - **Async Game Loop:** Responsive controls and silky-smooth gameplay.
+- **Bag of 7 Tetromino System:** Fair and modern piece generation using a shuffled bag of all 7 tetrominoes.
+- **Next Block Preview:** Always see which tetromino is coming up next.
 - **Customizable:** Tweak, extend, or theme the game as you like.
 - **Minimal Dependencies:** Lightning-fast builds and easy to understand codebase.
 
@@ -75,6 +77,8 @@ tetris/
 
 ## 🆕 Recent Improvements
 
+- **Bag of 7 Tetromino System:** Piece generation now uses a fair "bag of 7" algorithm, ensuring all tetrominoes appear once per cycle before reshuffling.
+- **Next Block Preview:** The upcoming tetromino is displayed under the score panel for better planning.
 - **Wall Kick Rotation:** Tetrominoes can now rotate near the left/right borders using wall kick logic, preventing overlap with grid boundaries.
 - **Soft Drop in All Directions:** Holding left, right, or down moves the tetromino smoothly and continuously, with configurable repeat rates.
 - **Configurable Parameters:** All movement speeds and related settings are now in `src/parameters.rs` for easy tuning.
