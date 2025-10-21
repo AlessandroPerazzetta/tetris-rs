@@ -69,7 +69,7 @@ tetris/
 
 ## ✨ Screenshots
 
-> _Add your screenshots here!_
+![Tetris Screenshot](assets/screenshot.png)
 
 ---
 
