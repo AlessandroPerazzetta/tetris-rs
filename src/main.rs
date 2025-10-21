@@ -1,6 +1,8 @@
-use macroquad::{prelude::*, rand::gen_range};
+use macroquad::prelude::*;
+
 mod game;
 mod grid;
+mod next;
 mod parameters;
 mod score;
 mod state;
@@ -10,10 +12,11 @@ use game::{
     GRID_HEIGHT, GRID_WIDTH, Grid, check_collision, clear_lines, draw_grid_blocks, stack_tetromino,
 };
 use grid::draw_grid;
+use next::draw_next_tetromino;
 use parameters::{SOFT_DROP_DELAY_HORIZONTAL, SOFT_DROP_DELAY_VERTICAL, Timers};
 use score::{SCORE_WIDTH, draw_score};
 use state::GameState;
-use tetromino::{BLOCK_SIZE, SHAPES, draw_tetromino, rotate};
+use tetromino::{BLOCK_SIZE, SHAPES, TetrominoBag, draw_tetromino, rotate};
 use ui::draw_centered_text;
 
 fn window_conf() -> Conf {
@@ -30,10 +33,18 @@ async fn main() {
     let mut game_state = GameState::Running;
     let mut grid: Grid = [[None; GRID_WIDTH]; GRID_HEIGHT];
 
-    let mut shape_idx = gen_range(0, SHAPES.len());
-    let mut shape = SHAPES[shape_idx];
     let tetromino_colors = [ORANGE, YELLOW, GREEN, RED, BLUE, PURPLE, PINK];
+
+    // Use TetrominoBag for bag of 7 system
+    let mut bag = TetrominoBag::new();
+    let mut bag_index = 0;
+    let mut shape_idx = bag.next();
+    let mut shape = SHAPES[shape_idx];
     let mut color = tetromino_colors[shape_idx];
+    let mut next_idx = bag.peek();
+    let mut next_shape = SHAPES[next_idx];
+    let mut next_color = tetromino_colors[next_idx];
+
     let mut grid_x = 3;
     let mut grid_y = 0;
     let mut score = 0;
@@ -61,10 +72,13 @@ async fn main() {
                         if lines_cleared > 0 {
                             score += 100 * lines_cleared * lines_cleared;
                         }
-                        // Spawn new tetromino
-                        shape_idx = gen_range(0, SHAPES.len());
+                        // Spawn new tetromino using TetrominoBag
+                        shape_idx = bag.next();
                         shape = SHAPES[shape_idx];
                         color = tetromino_colors[shape_idx];
+                        next_idx = bag.peek();
+                        next_shape = SHAPES[next_idx];
+                        next_color = tetromino_colors[next_idx];
                         grid_x = 3;
                         grid_y = 0;
                         // Game over if new tetromino collides immediately
@@ -193,6 +207,8 @@ async fn main() {
                 draw_tetromino(&shape, grid_x, grid_y, color);
                 // Draw score
                 draw_score(score.try_into().unwrap());
+                // Draw next tetromino preview
+                draw_next_tetromino(&next_shape, next_color);
             }
             GameState::Paused => {
                 draw_centered_text("Paused", 60.0, YELLOW);

@@ -1,11 +1,6 @@
-tetris/src/next/mod.rs
-```
-```rust
-//! Module to draw the next tetromino block under the score panel.
-
-use crate::tetromino::{BLOCK_SIZE, TetrominoShape};
-use crate::score::SCORE_WIDTH;
 use crate::game::GRID_WIDTH;
+use crate::score::SCORE_WIDTH;
+use crate::tetromino::{BLOCK_SIZE, TetrominoShape};
 use macroquad::prelude::*;
 
 /// Draws the next tetromino block under the score panel.
@@ -21,13 +16,7 @@ pub fn draw_next_tetromino(next_shape: &TetrominoShape, color: Color) {
     let block_area_y = next_label_y + 32.0;
 
     // Draw the "Next" label
-    draw_text(
-        "Next:",
-        panel_x + 20.0,
-        next_label_y,
-        32.0,
-        WHITE,
-    );
+    draw_text("Next:", panel_x + 20.0, next_label_y, 32.0, WHITE);
 
     // Center the tetromino in the panel area
     let shape_size = 4.0 * BLOCK_SIZE;

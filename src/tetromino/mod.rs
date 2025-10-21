@@ -1,5 +1,5 @@
 use macroquad::prelude::*;
-
+use macroquad::rand::ChooseRandom;
 pub const BLOCK_SIZE: f32 = 30.0;
 
 pub type TetrominoShape = [[u8; 4]; 4];
@@ -44,5 +44,34 @@ pub fn draw_tetromino(shape: &TetrominoShape, grid_x: i32, grid_y: i32, color: C
                 );
             }
         }
+    }
+}
+
+/// Bag of 7 system for tetromino generation
+pub struct TetrominoBag {
+    bag: Vec<usize>,
+    index: usize,
+}
+
+impl TetrominoBag {
+    pub fn new() -> Self {
+        let mut bag: Vec<usize> = (0..7).collect();
+        bag.shuffle();
+        Self { bag, index: 0 }
+    }
+
+    pub fn next(&mut self) -> usize {
+        let idx = self.bag[self.index];
+        self.index += 1;
+        if self.index >= self.bag.len() {
+            self.bag = (0..7).collect();
+            self.bag.shuffle();
+            self.index = 0;
+        }
+        idx
+    }
+
+    pub fn peek(&self) -> usize {
+        self.bag[self.index]
     }
 }
