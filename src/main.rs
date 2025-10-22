@@ -21,7 +21,7 @@ use ui::draw_centered_text;
 
 fn window_conf() -> Conf {
     Conf {
-        window_title: "Tetromino Shapes, Rotation, and Grid".to_owned(),
+        window_title: "Tetris RS".to_owned(),
         window_width: (GRID_WIDTH as f32 * BLOCK_SIZE + SCORE_WIDTH) as i32,
         window_height: (GRID_HEIGHT as f32 * BLOCK_SIZE) as i32,
         ..Default::default()
@@ -30,14 +30,13 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let mut game_state = GameState::Running;
+    let mut game_state = GameState::Waiting;
     let mut grid: Grid = [[None; GRID_WIDTH]; GRID_HEIGHT];
 
     let tetromino_colors = [ORANGE, YELLOW, GREEN, RED, BLUE, PURPLE, PINK];
 
     // Use TetrominoBag for bag of 7 system
     let mut bag = TetrominoBag::new();
-    let mut bag_index = 0;
     let mut shape_idx = bag.next();
     let mut shape = SHAPES[shape_idx];
     let mut color = tetromino_colors[shape_idx];
@@ -56,6 +55,9 @@ async fn main() {
         clear_background(BLACK);
 
         match game_state {
+            GameState::Waiting => {
+                draw_centered_text("Press Enter to start", 48.0, YELLOW);
+            }
             GameState::Running => {
                 // ---------------------------------------------
                 // Falling logic
@@ -218,15 +220,17 @@ async fn main() {
             }
         }
 
-        // toggle pause with Enter key
+        // handle Enter key for state transitions
         if is_key_pressed(KeyCode::Enter) {
-            game_state = if game_state == GameState::Running {
-                GameState::Paused
-            } else if game_state == GameState::Paused {
-                GameState::Running
-            } else {
-                game_state
+            game_state = match game_state {
+                GameState::Waiting => GameState::Running,
+                GameState::Running => GameState::Paused,
+                GameState::Paused => GameState::Running,
+                _ => game_state,
             };
+        }
+        if is_key_pressed(KeyCode::Escape) {
+            break;
         }
         next_frame().await
     }
