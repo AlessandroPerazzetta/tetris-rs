@@ -59,9 +59,8 @@ tetris/
 │   ├── main.rs        # Game entry point and main loop
 │   ├── parameters.rs  # Movement/configuration parameters and grouped timers
 │   ├── game/          # Game logic (collision, stacking, etc.)
-│   ├── grid/          # Grid drawing and logic
 │   ├── game_info/     # Unified game info panel (score, lines, next preview)
-│   ├── score/         # Score handling (legacy, now merged)
+│   ├── grid/          # Grid drawing and logic
 │   ├── state.rs       # Game state management
 │   ├── tetromino/     # Tetromino shapes, rotation, and drawing
 │   └── ui/            # UI drawing helpers
