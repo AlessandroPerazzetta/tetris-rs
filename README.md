@@ -9,6 +9,7 @@ Welcome to **Tetris**, a classic puzzle game brought to life with the power of [
 - **Smooth Graphics:** Powered by macroquad for fast, cross-platform rendering.
 - **Async Game Loop:** Responsive controls and silky-smooth gameplay.
 - **Bag of 7 Tetromino System:** Fair and modern piece generation using a shuffled bag of all 7 tetrominoes.
+- **Unified Game Info Panel:** Score, lines cleared, and next tetromino preview are now grouped in a single, well-spaced side panel.
 - **Next Block Preview:** Always see which tetromino is coming up next.
 - **Customizable:** Tweak, extend, or theme the game as you like.
 - **Minimal Dependencies:** Lightning-fast builds and easy to understand codebase.
@@ -58,8 +59,9 @@ tetris/
 │   ├── main.rs        # Game entry point and main loop
 │   ├── parameters.rs  # Movement/configuration parameters and grouped timers
 │   ├── game/          # Game logic (collision, stacking, etc.)
-│   ├── grid.rs        # Grid drawing and logic
-│   ├── score/         # Score handling
+│   ├── grid/          # Grid drawing and logic
+│   ├── game_info/     # Unified game info panel (score, lines, next preview)
+│   ├── score/         # Score handling (legacy, now merged)
 │   ├── state.rs       # Game state management
 │   ├── tetromino/     # Tetromino shapes, rotation, and drawing
 │   └── ui/            # UI drawing helpers
@@ -77,6 +79,7 @@ tetris/
 
 ## 🆕 Recent Improvements
 
+- **Unified Game Info Panel:** Score, lines cleared, and next tetromino preview are now displayed together in a single, consistently spaced side panel for a cleaner UI.
 - **Bag of 7 Tetromino System:** Piece generation now uses a fair "bag of 7" algorithm, ensuring all tetrominoes appear once per cycle before reshuffling.
 - **Next Block Preview:** The upcoming tetromino is displayed under the score panel for better planning.
 - **Wall Kick Rotation:** Tetrominoes can now rotate near the left/right borders using wall kick logic, preventing overlap with grid boundaries.
@@ -84,6 +87,7 @@ tetris/
 - **Configurable Parameters:** All movement speeds and related settings are now in `src/parameters.rs` for easy tuning.
 - **Grouped Timers:** Movement timers are grouped in a `Timers` struct for cleaner code and easier management.
 - **Cleaner Main Loop:** The main game loop is now more readable, with logic and configuration separated into modules.
+
 
 
 

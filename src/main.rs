@@ -1,21 +1,20 @@
 use macroquad::prelude::*;
 
 mod game;
+mod game_info;
 mod grid;
-mod next;
 mod parameters;
-mod score;
 mod state;
 mod tetromino;
 mod ui;
+
 use crate::parameters::{
     BLOCK_SIZE, GRID_HEIGHT, GRID_WIDTH, SCORE_WIDTH, SOFT_DROP_DELAY_HORIZONTAL,
     SOFT_DROP_DELAY_VERTICAL, Timers,
 };
 use game::{Grid, check_collision, clear_lines, draw_grid_blocks, stack_tetromino};
+use game_info::GameInfo;
 use grid::draw_grid;
-use next::draw_next_tetromino;
-use score::draw_score;
 use state::GameState;
 use tetromino::{SHAPES, TetrominoBag, draw_tetromino, rotate};
 use ui::draw_centered_text;
@@ -45,9 +44,10 @@ async fn main() {
     let mut next_shape = SHAPES[next_idx];
     let mut next_color = tetromino_colors[next_idx];
 
+    let mut game_info = GameInfo::new(next_shape, next_color);
+
     let mut grid_x = 3;
     let mut grid_y = 0;
-    let mut score = 0;
     let mut fall_timer = 0.0;
     let fall_delay = 0.5;
     let mut timers = Timers::default();
@@ -73,7 +73,7 @@ async fn main() {
                         // Line clearing and scoring
                         let lines_cleared = clear_lines(&mut grid);
                         if lines_cleared > 0 {
-                            score += 100 * lines_cleared * lines_cleared;
+                            game_info.add_score(lines_cleared.try_into().unwrap());
                         }
                         // Spawn new tetromino using TetrominoBag
                         shape_idx = bag.next();
@@ -82,6 +82,7 @@ async fn main() {
                         next_idx = bag.peek();
                         next_shape = SHAPES[next_idx];
                         next_color = tetromino_colors[next_idx];
+                        game_info.set_next(next_shape, next_color);
                         grid_x = 3;
                         grid_y = 0;
                         // Game over if new tetromino collides immediately
@@ -208,10 +209,8 @@ async fn main() {
                 draw_grid_blocks(&grid);
                 // Draw active tetromino
                 draw_tetromino(&shape, grid_x, grid_y, color);
-                // Draw score
-                draw_score(score.try_into().unwrap());
-                // Draw next tetromino preview
-                draw_next_tetromino(&next_shape, next_color);
+                // Draw game info panel (score, lines, next)
+                game_info.draw();
             }
             GameState::Paused => {
                 draw_centered_text("Paused", 60.0, YELLOW);

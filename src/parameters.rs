@@ -7,7 +7,7 @@ pub const GRID_WIDTH: usize = 10;
 pub const GRID_HEIGHT: usize = 20;
 
 /// Width of the score panel.
-pub const SCORE_WIDTH: f32 = 120.0;
+pub const SCORE_WIDTH: f32 = 160.0;
 
 /// Size of a single Tetris block (in pixels).
 pub const BLOCK_SIZE: f32 = 30.0;
