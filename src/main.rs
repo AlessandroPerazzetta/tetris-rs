@@ -94,7 +94,7 @@ async fn main() {
                 // KEY UP LOGIC
                 // ---------------------------------------------
                 // Controls: rotate, move
-                if is_key_pressed(KeyCode::Up) {
+                if is_key_pressed(KeyCode::Up) || is_key_pressed(KeyCode::X) {
                     let rotated = rotate(&shape);
                     if !check_collision(&grid, &rotated, grid_x, grid_y) {
                         shape = rotated;

@@ -23,7 +23,7 @@ Welcome to **Tetris**, a classic puzzle game brought to life with the power of [
 | ↓           | Soft drop (hold for faster descent)            |
 | ↑ / X       | Rotate (with wall kick near borders)           |
 | Space       | Hard drop                                      |
-| P           | Pause                                          |
+| P / Enter   | Pause                                          |
 | Q / Esc     | Quit                                           |
 
 ---
