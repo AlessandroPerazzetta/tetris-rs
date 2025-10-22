@@ -8,15 +8,16 @@ mod score;
 mod state;
 mod tetromino;
 mod ui;
-use game::{
-    GRID_HEIGHT, GRID_WIDTH, Grid, check_collision, clear_lines, draw_grid_blocks, stack_tetromino,
+use crate::parameters::{
+    BLOCK_SIZE, GRID_HEIGHT, GRID_WIDTH, SCORE_WIDTH, SOFT_DROP_DELAY_HORIZONTAL,
+    SOFT_DROP_DELAY_VERTICAL, Timers,
 };
+use game::{Grid, check_collision, clear_lines, draw_grid_blocks, stack_tetromino};
 use grid::draw_grid;
 use next::draw_next_tetromino;
-use parameters::{SOFT_DROP_DELAY_HORIZONTAL, SOFT_DROP_DELAY_VERTICAL, Timers};
-use score::{SCORE_WIDTH, draw_score};
+use score::draw_score;
 use state::GameState;
-use tetromino::{BLOCK_SIZE, SHAPES, TetrominoBag, draw_tetromino, rotate};
+use tetromino::{SHAPES, TetrominoBag, draw_tetromino, rotate};
 use ui::draw_centered_text;
 
 fn window_conf() -> Conf {

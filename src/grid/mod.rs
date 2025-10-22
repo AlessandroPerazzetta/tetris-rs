@@ -1,7 +1,6 @@
-use crate::GRID_HEIGHT;
-use crate::GRID_WIDTH;
-use crate::tetromino::BLOCK_SIZE;
 use macroquad::prelude::*;
+
+use crate::parameters::{BLOCK_SIZE, GRID_HEIGHT, GRID_WIDTH};
 
 /// Draws the Tetris grid using lines.
 ///

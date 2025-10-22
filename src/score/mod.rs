@@ -1,8 +1,6 @@
-use crate::GRID_WIDTH;
-use crate::tetromino::BLOCK_SIZE;
 use macroquad::prelude::*;
 
-pub const SCORE_WIDTH: f32 = 120.0;
+use crate::parameters::{BLOCK_SIZE, GRID_WIDTH};
 
 /// Draws the Tetris score
 ///

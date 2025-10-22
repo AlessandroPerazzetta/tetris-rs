@@ -1,7 +1,7 @@
-use crate::game::GRID_WIDTH;
-use crate::score::SCORE_WIDTH;
-use crate::tetromino::{BLOCK_SIZE, TetrominoShape};
 use macroquad::prelude::*;
+
+use crate::parameters::{BLOCK_SIZE, GRID_WIDTH, SCORE_WIDTH};
+use crate::tetromino::TetrominoShape;
 
 /// Draws the next tetromino block under the score panel.
 ///

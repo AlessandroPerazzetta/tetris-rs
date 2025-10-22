@@ -1,8 +1,7 @@
-use crate::tetromino::{BLOCK_SIZE, TetrominoShape};
 use macroquad::prelude::*;
 
-pub const GRID_WIDTH: usize = 10;
-pub const GRID_HEIGHT: usize = 20;
+use crate::parameters::{BLOCK_SIZE, GRID_HEIGHT, GRID_WIDTH};
+use crate::tetromino::TetrominoShape;
 
 pub type Grid = [[Option<Color>; GRID_WIDTH]; GRID_HEIGHT];
 

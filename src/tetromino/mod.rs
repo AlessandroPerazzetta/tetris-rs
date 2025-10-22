@@ -1,6 +1,7 @@
 use macroquad::prelude::*;
 use macroquad::rand::ChooseRandom;
-pub const BLOCK_SIZE: f32 = 30.0;
+
+use crate::parameters::BLOCK_SIZE;
 
 pub type TetrominoShape = [[u8; 4]; 4];
 
