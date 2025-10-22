@@ -221,7 +221,7 @@ async fn main() {
         }
 
         // handle Enter key for state transitions
-        if is_key_pressed(KeyCode::Enter) {
+        if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::P) {
             game_state = match game_state {
                 GameState::Waiting => GameState::Running,
                 GameState::Running => GameState::Paused,
@@ -229,7 +229,7 @@ async fn main() {
                 _ => game_state,
             };
         }
-        if is_key_pressed(KeyCode::Escape) {
+        if is_key_pressed(KeyCode::Escape) || is_key_pressed(KeyCode::Q) {
             break;
         }
         next_frame().await

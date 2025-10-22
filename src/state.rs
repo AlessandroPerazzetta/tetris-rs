@@ -6,6 +6,7 @@ pub enum GameState {
     GameOver,
 }
 
+#[allow(dead_code)]
 impl GameState {
     pub fn is_running(&self) -> bool {
         matches!(self, GameState::Running)

@@ -13,7 +13,7 @@ pub struct Timers {
     pub soft_drop_left: f32,
     pub soft_drop_right: f32,
 }
-
+#[allow(dead_code)]
 impl Timers {
     /// Resets all timers to zero.
     pub fn reset(&mut self) {
