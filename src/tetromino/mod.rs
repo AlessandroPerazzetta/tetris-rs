@@ -21,6 +21,7 @@ pub const SHAPES: [TetrominoShape; 7] = [
     [[0, 1, 0, 0], [1, 1, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
 ];
 
+/// Rotate the tetromino
 pub fn rotate(shape: &TetrominoShape) -> TetrominoShape {
     let mut new_shape = [[0u8; 4]; 4];
     for y in 0..4 {
@@ -31,6 +32,7 @@ pub fn rotate(shape: &TetrominoShape) -> TetrominoShape {
     new_shape
 }
 
+/// Drwaw the tetromino
 pub fn draw_tetromino(shape: &TetrominoShape, grid_x: i32, grid_y: i32, color: Color) {
     for row in 0..4 {
         for col in 0..4 {
