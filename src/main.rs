@@ -213,6 +213,23 @@ async fn main() {
                 game_info.draw();
             }
             GameState::Paused => {
+                // Draw the grid and stacked blocks as usual
+                draw_grid(GRAY);
+                draw_grid_blocks(&grid);
+
+                // Draw a semi-transparent overlay to "blur" or dim the grid
+                draw_rectangle(
+                    0.0,
+                    0.0,
+                    GRID_WIDTH as f32 * BLOCK_SIZE,
+                    GRID_HEIGHT as f32 * BLOCK_SIZE,
+                    Color::new(0.2, 0.2, 0.2, 0.7),
+                );
+
+                // Draw the info panel as usual
+                game_info.draw();
+
+                // Draw "Paused" text in the center
                 draw_centered_text("Paused", 60.0, YELLOW);
             }
             GameState::GameOver => {
