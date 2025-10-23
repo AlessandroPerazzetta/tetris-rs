@@ -49,7 +49,6 @@ async fn main() {
     let mut grid_x = 3;
     let mut grid_y = 0;
     let mut fall_timer = 0.0;
-    let fall_delay = 0.5;
     let mut timers = Timers::default();
 
     let mut selected_menu = 1; // 0: Easy, 1: Medium, 2: Hard
@@ -82,7 +81,7 @@ async fn main() {
                     game_state = GameState::Running;
                     level = 1;
                     level_timer = 0.0;
-                     game_info.set_level(level); // reset level in game info
+                    game_info.set_level(level); // reset level in game info
                 }
             }
             GameState::Running => {
