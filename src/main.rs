@@ -133,36 +133,37 @@ async fn main() {
                 // KEY UP LOGIC
                 // ---------------------------------------------
                 // Controls: rotate, move
-                if is_key_pressed(KeyCode::Up) || is_key_pressed(KeyCode::X) {
-                    let rotated = rotate(&shape);
-                    if !check_collision(&grid, &rotated, grid_x, grid_y) {
-                        shape = rotated;
-                    }
-                }
+                // if is_key_pressed(KeyCode::Up) || is_key_pressed(KeyCode::X) {
+                //     let rotated = rotate(&shape);
+                //     if !check_collision(&grid, &rotated, grid_x, grid_y) {
+                //         shape = rotated;
+                //     }
+                // }
+
                 // This modified version allow rotation when near border moving block to allow rotation
                 // TODO: test and decide which one is better
                 //
-                // if is_key_pressed(KeyCode::Up) {
-                //     let rotated = rotate(&shape);
+                if is_key_pressed(KeyCode::Up) || is_key_pressed(KeyCode::X) {
+                    let rotated = rotate(&shape);
 
-                //     // Try rotating in place
-                //     if !check_collision(&grid, &rotated, grid_x, grid_y) {
-                //         shape = rotated;
-                //     } else {
-                //         // Try wall kicks: left/right by 1 or 2 cells
-                //         let kicks = [-1, 1, -2, 2];
-                //         let mut kicked = false;
-                //         for &dx in &kicks {
-                //             if !check_collision(&grid, &rotated, grid_x + dx, grid_y) {
-                //                 shape = rotated;
-                //                 grid_x += dx;
-                //                 kicked = true;
-                //                 break;
-                //             }
-                //         }
-                //         // If none of the kicks work, do not rotate
-                //     }
-                // }
+                    // Try rotating in place
+                    if !check_collision(&grid, &rotated, grid_x, grid_y) {
+                        shape = rotated;
+                    } else {
+                        // Try wall kicks: left/right by 1 or 2 cells
+                        let kicks = [-1, 1, -2, 2];
+                        // let mut kicked = false;
+                        for &dx in &kicks {
+                            if !check_collision(&grid, &rotated, grid_x + dx, grid_y) {
+                                shape = rotated;
+                                grid_x += dx;
+                                // kicked = true;
+                                break;
+                            }
+                        }
+                        // If none of the kicks work, do not rotate
+                    }
+                }
 
                 // ---------------------------------------------
                 // KEY RIGHT LOGIC
@@ -298,6 +299,33 @@ async fn main() {
 
                 // Draw "Game Over" text in the center
                 draw_centered_text("Game Over", 60.0, RED);
+                draw_bottom_centered_text("Press Enter to play again", 36.0, YELLOW);
+
+                // Restart logic
+                if is_key_pressed(KeyCode::Enter) {
+                    // Reset all game state as at the start
+                    grid = [[None; GRID_WIDTH]; GRID_HEIGHT];
+                    bag = TetrominoBag::new();
+                    shape_idx = bag.next();
+                    shape = SHAPES[shape_idx];
+                    color = tetromino_colors[shape_idx];
+                    next_idx = bag.peek();
+                    next_shape = SHAPES[next_idx];
+                    next_color = tetromino_colors[next_idx];
+                    game_info = GameInfo::new(next_shape, next_color);
+                    grid_x = 3;
+                    grid_y = 0;
+                    fall_timer = 0.0;
+                    timers = Timers::default();
+                    level = 1;
+                    level_timer = 0.0;
+                    game_info.set_level(level);
+
+                    // Optionally, go back to difficulty selection:
+                    game_state = GameState::Waiting;
+                    // Or, to start immediately:
+                    // game_state = GameState::Running;
+                }
             }
         }
 

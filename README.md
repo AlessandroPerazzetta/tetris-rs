@@ -15,6 +15,8 @@ Welcome to **Tetris**, a classic puzzle game brought to life with the power of [
 - **Next Block Preview:** Always see which tetromino is coming up next.
 - **Customizable:** Tweak, extend, or theme the game as you like.
 - **Minimal Dependencies:** Lightning-fast builds and easy to understand codebase.
+- **Wall Kick Rotation:** Tetrominoes can rotate near borders or other blocks, using simple wall kick logic for a modern feel.
+- **Restart from Game Over:** After losing, press Enter to restart and optionally select a new difficulty.
 
 ---
 
@@ -24,7 +26,7 @@ Welcome to **Tetris**, a classic puzzle game brought to life with the power of [
 |-------------|----------------|
 | ← / →       | Move left/right (hold for continuous movement) |
 | ↓           | Soft drop (hold for faster descent)            |
-| ↑ / X       | Rotate (with wall kick near borders)           |
+| ↑ / X       | Rotate (with wall kick near borders/blocks)    |
 | Space       | Hard drop                                      |
 | P / Enter   | Pause / Unpause (only in-game)                 |
 | Q / Esc     | Quit                                           |
@@ -35,7 +37,7 @@ Welcome to **Tetris**, a classic puzzle game brought to life with the power of [
 
 ### 1. Prerequisites
 
-- [Rust](https://rustup.rs/) (edition 2024 or newer recommended)
+- [Rust](https://rustup.rs/) (edition 2021 or newer recommended)
 
 ### 2. Build & Run
 
@@ -69,9 +71,7 @@ tetris/
 ├── Cargo.toml         # Rust dependencies
 └── README.md          # This file!
 ```
-
 ---
-
 ## ✨ Screenshots
 
 ![Tetris Screenshot](assets/screenshot.png)
@@ -88,11 +88,12 @@ tetris/
 - **Unified Game Info Panel:** Score, lines cleared, current level, and next tetromino preview are now displayed together in a single, consistently spaced side panel for a cleaner UI.
 - **Bag of 7 Tetromino System:** Piece generation now uses a fair "bag of 7" algorithm, ensuring all tetrominoes appear once per cycle before reshuffling.
 - **Next Block Preview:** The upcoming tetromino is displayed under the score panel for better planning.
-- **Wall Kick Rotation:** Tetrominoes can now rotate near the left/right borders using wall kick logic, preventing overlap with grid boundaries.
+- **Wall Kick Rotation:** Tetrominoes can now rotate near the left/right borders or other blocks using wall kick logic, preventing overlap with grid boundaries.
 - **Soft Drop in All Directions:** Holding left, right, or down moves the tetromino smoothly and continuously, with configurable repeat rates.
 - **Configurable Parameters:** All movement speeds and related settings are now in `src/parameters.rs` for easy tuning.
 - **Grouped Timers:** Movement timers are grouped in a `Timers` struct for cleaner code and easier management.
 - **Cleaner Main Loop:** The main game loop is now more readable, with logic and configuration separated into modules.
+- **Restart from Game Over:** After losing, you can press Enter to restart the game and select a new difficulty.
 
 ---
 
