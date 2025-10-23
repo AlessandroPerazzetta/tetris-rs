@@ -17,6 +17,7 @@ pub struct GameInfo {
     pub lines_cleared: u32,
     pub next_shape: TetrominoShape,
     pub next_color: Color,
+    pub level: usize,
 }
 
 impl GameInfo {
@@ -26,6 +27,7 @@ impl GameInfo {
             lines_cleared: 0,
             next_shape,
             next_color,
+            level: 1,
         }
     }
 
@@ -39,6 +41,11 @@ impl GameInfo {
     pub fn set_next(&mut self, shape: TetrominoShape, color: Color) {
         self.next_shape = shape;
         self.next_color = color;
+    }
+
+    /// Sets the current level.
+    pub fn set_level(&mut self, level: usize) {
+        self.level = level;
     }
 
     /// Draws the score, lines cleared, and next tetromino preview.
@@ -77,6 +84,18 @@ impl GameInfo {
             y + FONT_SIZE + 12.0,
             NEXT_PREVIEW_WIDTH,
             NEXT_PREVIEW_HEIGHT,
+        );
+
+
+        // Draw current level below the next tetromino preview, with spacing
+        let level_text = format!("Level: {}", self.level);
+        let level_y = y + FONT_SIZE + NEXT_PREVIEW_HEIGHT + 32.0; // 32.0 for extra spacing
+        draw_text(
+            &level_text,
+            PANEL_X,
+            level_y,
+            FONT_SIZE,
+            YELLOW,
         );
     }
 }

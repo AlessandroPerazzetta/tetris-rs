@@ -10,14 +10,14 @@ mod ui;
 
 use crate::parameters::{
     BLOCK_SIZE, GRID_HEIGHT, GRID_WIDTH, SCORE_WIDTH, SOFT_DROP_DELAY_HORIZONTAL,
-    SOFT_DROP_DELAY_VERTICAL, Timers,
+    SOFT_DROP_DELAY_VERTICAL, Timers, Difficulty
 };
 use game::{Grid, check_collision, clear_lines, draw_grid_blocks, stack_tetromino};
 use game_info::GameInfo;
 use grid::draw_grid;
 use state::GameState;
 use tetromino::{SHAPES, TetrominoBag, draw_tetromino, rotate};
-use ui::draw_centered_text;
+use ui::{draw_centered_text, draw_bottom_centered_text, draw_difficulty_menu};
 
 fn window_conf() -> Conf {
     Conf {
@@ -52,14 +52,51 @@ async fn main() {
     let fall_delay = 0.5;
     let mut timers = Timers::default();
 
+    let mut selected_menu = 1; // 0: Easy, 1: Medium, 2: Hard
+    let difficulties = [Difficulty::Easy, Difficulty::Medium, Difficulty::Hard];
+    let mut difficulty = Difficulty::Medium;
+    let mut fall_delay = difficulty.fall_delay();
+    let mut level_timer = 0.0;
+    let mut level = 1;
+
     loop {
         clear_background(BLACK);
 
         match game_state {
             GameState::Waiting => {
-                draw_centered_text("Press Enter to start", 48.0, YELLOW);
+                draw_bottom_centered_text("Press Enter to start", 48.0, YELLOW);
+
+                // Draw difficulty selection menu
+                draw_difficulty_menu(selected_menu);
+
+                // Draw difficulty selection
+                if is_key_pressed(KeyCode::Up) && selected_menu > 0 {
+                    selected_menu -= 1;
+                }
+                if is_key_pressed(KeyCode::Down) && selected_menu < 2 {
+                    selected_menu += 1;
+                }
+                if is_key_pressed(KeyCode::Enter) {
+                    difficulty = difficulties[selected_menu];
+                    fall_delay = difficulty.fall_delay();
+                    game_state = GameState::Running;
+                    level = 1;
+                    level_timer = 0.0;
+                     game_info.set_level(level); // reset level in game info
+                }
             }
             GameState::Running => {
+                // ---------------------------------------------
+                // Level progression logic
+                // ---------------------------------------------
+                level_timer += get_frame_time();
+                if level_timer > 30.0 {
+                    level_timer = 0.0;
+                    level += 1;
+                    fall_delay = (fall_delay * 0.9).max(0.1);
+                    game_info.set_level(level); // update level in game info
+                }
+
                 // ---------------------------------------------
                 // Falling logic
                 // ---------------------------------------------
@@ -203,6 +240,11 @@ async fn main() {
                     }
                 }
 
+                // Pause logic moved here
+                if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::P) {
+                    game_state = GameState::Paused;
+                }
+
                 // Draw grid lines
                 draw_grid(GRAY);
                 // Draw stacked blocks
@@ -231,6 +273,11 @@ async fn main() {
 
                 // Draw "Paused" text in the center
                 draw_centered_text("Paused", 60.0, YELLOW);
+                
+                // Unpause logic moved here
+                if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::P) {
+                    game_state = GameState::Running;
+                }
             }
             GameState::GameOver => {
                 // Draw the grid and stacked blocks as usual
@@ -254,15 +301,6 @@ async fn main() {
             }
         }
 
-        // handle Enter key for state transitions
-        if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::P) {
-            game_state = match game_state {
-                GameState::Waiting => GameState::Running,
-                GameState::Running => GameState::Paused,
-                GameState::Paused => GameState::Running,
-                _ => game_state,
-            };
-        }
         if is_key_pressed(KeyCode::Escape) || is_key_pressed(KeyCode::Q) {
             break;
         }

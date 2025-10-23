@@ -34,3 +34,20 @@ impl Timers {
         self.soft_drop_right = 0.0;
     }
 }
+
+#[derive(Clone, Copy, PartialEq)]
+pub enum Difficulty {
+    Easy,
+    Medium,
+    Hard,
+}
+
+impl Difficulty {
+    pub fn fall_delay(&self) -> f32 {
+        match self {
+            Difficulty::Easy => 0.7,
+            Difficulty::Medium => 0.5,
+            Difficulty::Hard => 0.3,
+        }
+    }
+}
