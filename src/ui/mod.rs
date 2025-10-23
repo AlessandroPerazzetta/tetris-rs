@@ -1,10 +1,27 @@
+// This module provides UI drawing utilities for the Tetris game.
+//
+// Principles and design choices:
+//
+// - Defines helper functions for drawing centered and bottom-aligned text, using a flexible alignment enum.
+// - Implements the difficulty selection menu, including keyboard navigation and visual highlighting of the selected option.
+// - Uses consistent layout and color choices for clarity and a modern look.
+// - Designed for easy integration with the main game loop and extensibility for future UI elements.
+
 use macroquad::prelude::*;
 
+// Enum to specify vertical alignment for text drawing.
 enum VerticalAlign {
     Center,
     Bottom(f32), // offset from bottom
 }
 
+// Draws text aligned based on the specified vertical alignment.
+///
+/// # Arguments
+/// * `text` - The text to draw
+/// * `font_size` - The font size to use
+/// * `color` - The color of the text
+/// * `align` - The vertical alignment to use
 fn draw_aligned_text(text: &str, font_size: f32, color: Color, align: VerticalAlign) {
     let window_width = screen_width();
     let window_height = screen_height();
@@ -17,16 +34,30 @@ fn draw_aligned_text(text: &str, font_size: f32, color: Color, align: VerticalAl
     draw_text(text, x, y, font_size, color);
 }
 
-// For convenience, you can keep these wrappers:
+/// Draws centered text on the screen.
+///
+/// # Arguments
+/// * `text` - The text to draw
+/// * `font_size` - The font size to use
+/// * `color` - The color of the text
 pub fn draw_centered_text(text: &str, font_size: f32, color: Color) {
     draw_aligned_text(text, font_size, color, VerticalAlign::Center);
 }
 
+/// Draws bottom-centered text on the screen with a default offset.
+///
+/// # Arguments
+/// * `text` - The text to draw
+/// * `font_size` - The font size to use
+/// * `color` - The color of the text
 pub fn draw_bottom_centered_text(text: &str, font_size: f32, color: Color) {
     draw_aligned_text(text, font_size, color, VerticalAlign::Bottom(20.0));
 }
 
 /// Draws the difficulty selection menu with the given selected option highlighted.
+///
+/// # Arguments
+/// * `selected` - The index of the currently selected difficulty option
 pub fn draw_difficulty_menu(selected: usize) {    
     // Draw title
     let title = "Select difficulty";

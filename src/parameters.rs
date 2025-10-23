@@ -1,4 +1,12 @@
-/// Movement and game configuration parameters for Tetris.
+// This module defines core configuration parameters and types for the Tetris game.
+//
+// Principles and design choices:
+//
+// - Centralizes all grid, block, and panel sizing constants for easy tuning and consistency.
+// - Defines timing parameters for movement and soft drop logic, allowing smooth and configurable controls.
+// - Groups movement timers in a Timers struct for cleaner state management.
+// - Implements the Difficulty enum and logic, enabling adjustable game speed and difficulty selection.
+// - Designed for clarity, maintainability, and straightforward integration with the rest of the game.
 
 /// Width of the Tetris grid (number of columns).
 pub const GRID_WIDTH: usize = 10;
@@ -25,6 +33,8 @@ pub struct Timers {
     pub soft_drop_left: f32,
     pub soft_drop_right: f32,
 }
+
+/// Implementation of Timers methods.
 #[allow(dead_code)]
 impl Timers {
     /// Resets all timers to zero.
@@ -35,6 +45,10 @@ impl Timers {
     }
 }
 
+/// Enum representing the game difficulty levels.
+///  - Easy: Slower fall speed.
+///  - Medium: Moderate fall speed.
+///  - Hard: Fast fall speed.
 #[derive(Clone, Copy, PartialEq)]
 pub enum Difficulty {
     Easy,
@@ -42,6 +56,7 @@ pub enum Difficulty {
     Hard,
 }
 
+/// Implementation of Difficulty methods.
 impl Difficulty {
     pub fn fall_delay(&self) -> f32 {
         match self {
