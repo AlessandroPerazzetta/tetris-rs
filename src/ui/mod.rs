@@ -5,7 +5,7 @@ enum VerticalAlign {
     Bottom(f32), // offset from bottom
 }
 
-pub fn draw_aligned_text(text: &str, font_size: f32, color: Color, align: VerticalAlign) {
+fn draw_aligned_text(text: &str, font_size: f32, color: Color, align: VerticalAlign) {
     let window_width = screen_width();
     let window_height = screen_height();
     let text_dims = measure_text(text, None, font_size as u16, 1.0);
