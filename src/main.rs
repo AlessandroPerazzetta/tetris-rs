@@ -63,12 +63,13 @@ async fn main() {
 
         match game_state {
             GameState::Waiting => {
-                draw_bottom_centered_text("Press Enter to start", 48.0, YELLOW);
-
                 // Draw difficulty selection menu
                 draw_difficulty_menu(selected_menu);
-
-                // Draw difficulty selection
+                
+                // Draw instruction to start
+                draw_bottom_centered_text("Press Enter to start", 48.0, YELLOW);
+                
+                // Menu navigation logic
                 if is_key_pressed(KeyCode::Up) && selected_menu > 0 {
                     selected_menu -= 1;
                 }
